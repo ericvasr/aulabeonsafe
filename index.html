@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beonsafe - Dashboard Colaborativo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --beonsafe-green: #2E8B57; /* Pantone Verde Beonsafe */
+            --beonsafe-light-green: #90EE90;
+            --beonsafe-dark-green: #1F5F3F;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --background-light: #f8f9fa;
+            --white: #ffffff;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--background-light) 0%, #e8f5e8 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--beonsafe-green);
+            color: var(--white);
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .status-bar {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 10px var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--beonsafe-green);
+            display: block;
+        }
+
+        .status-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .module-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px var(--shadow);
+            border-left: 4px solid var(--beonsafe-green);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px var(--shadow);
+        }
+
+        .module-title {
+            color: var(--beonsafe-green);
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .module-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .module-status {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-waiting {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-development {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-ready {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .webhook-display {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px var(--shadow);
+        }
+
+        .webhook-title {
+            color: var(--beonsafe-green);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .webhook-content {
+            background: #f8f9fa;
+            border-radius: 5px;
+            padding: 1rem;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            min-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #e9ecef;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .status-bar {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🛡️ Beonsafe Dashboard</h1>
+        <p>Sistema Colaborativo de Segurança e Monitoramento</p>
+    </header>
+
+    <div class="container">
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="status-value" id="activeConnections">0</span>
+                <div class="status-label">Conexões Ativas</div>
+            </div>
+            <div class="status-item">
+                <span class="status-value" id="totalRequests">0</span>
+                <div class="status-label">Requisições Totais</div>
+            </div>
+            <div class="status-item">
+                <span class="status-value" id="lastUpdate">--:--</span>
+                <div class="status-label">Última Atualização</div>
+            </div>
+        </div>
+
+        <div class="modules-grid">
+            <div class="module-card">
+                <h3 class="module-title">📊 Módulo Aline - Analytics</h3>
+                <p class="module-description">
+                    Responsável pela criação de gráficos e visualizações de dados em tempo real.
+                    Implementará dashboards interativos e relatórios de segurança.
+                </p>
+                <span class="module-status status-waiting">Aguardando Desenvolvimento</span>
+            </div>
+
+            <div class="module-card">
+                <h3 class="module-title">🔐 Módulo Braian - Autenticação</h3>
+                <p class="module-description">
+                    Desenvolvimento do sistema de login e controle de acesso.
+                    Implementará JWT, validações e controle de permissões.
+                </p>
+                <span class="module-status status-waiting">Aguardando Desenvolvimento</span>
+            </div>
+
+            <div class="module-card">
+                <h3 class="module-title">🌐 Módulo Kauã - Webhooks</h3>
+                <p class="module-description">
+                    Criação da API para recebimento e processamento de webhooks.
+                    Gerenciará integração com sistemas externos.
+                </p>
+                <span class="module-status status-waiting">Aguardando Desenvolvimento</span>
+            </div>
+
+            <div class="module-card">
+                <h3 class="module-title">💾 Módulo Elcio - Database</h3>
+                <p class="module-description">
+                    Estrutura e gerenciamento do banco de dados.
+                    Implementará queries, backups e otimizações.
+                </p>
+                <span class="module-status status-waiting">Aguardando Desenvolvimento</span>
+            </div>
+
+            <div class="module-card">
+                <h3 class="module-title">🎨 Módulo Alessandra - UI/UX</h3>
+                <p class="module-description">
+                    Design de interface e experiência do usuário.
+                    Criará componentes visuais e melhorará a usabilidade.
+                </p>
+                <span class="module-status status-waiting">Aguardando Desenvolvimento</span>
+            </div>
+        </div>
+
+        <div class="webhook-display">
+            <h3 class="webhook-title">
+                📡 Monitor de Webhooks
+                <span class="pulse" style="color: var(--beonsafe-light-green);">●</span>
+            </h3>
+            <div class="webhook-content" id="webhookData">
+                Sistema aguardando dados de webhooks...
+                <br><br>
+                📍 Endpoint: /webhook/beonsafe
+                <br>
+                🔄 Status: Aguardando conexão
+                <br>
+                📝 Logs aparecerão aqui em tempo real
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 Beonsafe - Projeto Colaborativo de Segurança Digital</p>
+        <p>Desenvolvido por: Aline, Braian, Kauã, Elcio e Alessandra</p>
+    </footer>
+
+    <script src="aulajs.js"></script>
+</body>
+</html>
