@@ -11,12 +11,12 @@
 
 ## 🎯 Sobre o Projeto
 
-O **Beonsafe** é um sistema colaborativo de dashboard para monitoramento de segurança em tempo real. Desenvolvido por alunos usando **n8n** para automações, **NocoDB** como banco de dados, e interface em **HTML/JavaScript** com as cores da Beonsafe (Pantone Verde).
+O **Beonsafe** é um sistema colaborativo de dashboard para monitoramento de segurança em tempo real. Desenvolvido por alunos usando **n8n** (VPS) para automações, **NocoDB** (VPS) como banco de dados, e interface em **HTML/JavaScript** com as cores da Beonsafe (Pantone Verde).
 
 ### 🚀 Funcionalidades Principais
 
-- 🤖 **Automações com n8n** para processar dados
-- 🗄️ **NocoDB** como banco de dados visual
+- 🤖 **Automações com n8n** (já rodando na VPS)
+- 🗄️ **NocoDB** como banco de dados visual (já rodando na VPS)
 - 📊 **Dashboard interativo** com métricas ao vivo
 - 🎨 **Interface moderna** com design Beonsafe
 - 👥 **Sistema modular** para desenvolvimento colaborativo
@@ -26,10 +26,10 @@ O **Beonsafe** é um sistema colaborativo de dashboard para monitoramento de seg
 ## 🏗️ Arquitetura do Sistema
 
 ```
-┌─────────────────┐    🤖    ┌─────────────────┐    🗄️    ┌─────────────────┐    🎨    ┌─────────────────┐
+┌─────────────────┐   🤖    ┌─────────────────┐   🗄️    ┌─────────────────┐    🎨   ┌─────────────────┐
 │   APIs Externas │ ──────► │      n8n        │ ──────► │     NocoDB      │ ──────► │   Dashboard     │
 │   (Webhooks)    │         │   (Automação)   │         │   (Database)    │         │ (HTML/JS)       │
-└─────────────────┘         └─────────────────┘         └─────────────────┘         └─────────────────
+└─────────────────┘         └─────────────────┘         └─────────────────┘         └─────────────────┘
 ```
 
 ### 📁 Estrutura de Arquivos
@@ -44,21 +44,21 @@ O **Beonsafe** é um sistema colaborativo de dashboard para monitoramento de seg
 
 ## 🗺️ Mapa do Projeto - Como Tudo se Conecta
 
-### 1️⃣ **n8n** (Cérebro das Automações)
+### 1️⃣ **n8n** (Cérebro das Automações) - 🌐 **Já rodando na VPS**
 
 - Recebe dados de APIs externas
 - Processa e transforma os dados
 - Envia dados organizados para o NocoDB
 - Dispara notificações e alertas
 
-### 2️⃣ **NocoDB** (Banco de Dados Visual)
+### 2️⃣ **NocoDB** (Banco de Dados Visual) - 🌐 **Já rodando na VPS**
 
 - Armazena todos os dados de segurança
 - Interface visual para visualizar tabelas
 - API REST automática para conectar com dashboard
 - Relatórios e consultas simples
 
-### 3️⃣ **Dashboard** (Interface do Usuário)
+### 3️⃣ **Dashboard** (Interface do Usuário) - 💻 **Local (Windows)**
 
 - Mostra dados em tempo real
 - Interface bonita com cores Beonsafe
@@ -71,7 +71,7 @@ O **Beonsafe** é um sistema colaborativo de dashboard para monitoramento de seg
 
 ### 🤖 **Aline - n8n Analytics & Automações**
 
-**Responsabilidade:** Criar workflows no n8n para processar dados e gerar relatórios
+**Responsabilidade:** Criar workflows no n8n (VPS) para processar dados e gerar relatórios
 
 #### 🎯 Tarefas Específicas:
 
@@ -92,46 +92,48 @@ O **Beonsafe** é um sistema colaborativo de dashboard para monitoramento de seg
    - Integração com APIs de gráficos
    - Dados em tempo real para o dashboard
 
-#### 📋 Como executar (Windows):
+#### 📋 Como executar:
 
-**PASSO 1 - Verificar n8n**
+**PASSO 1 - Acessar n8n na VPS**
 
-```cmd
-# Abrir PowerShell como Administrador
-# Tecla Windows + X → "Windows PowerShell (Admin)"
-
-# Verificar se n8n está funcionando
-n8n --version
+```
+URL: http://seu-ip-vps:5678
+Login: (credenciais fornecidas pelo professor)
 ```
 
-**PASSO 2 - Iniciar n8n**
+**PASSO 2 - Criar seus workflows**
 
-```cmd
-# No PowerShell:
-n8n start
+1. Fazer login no n8n da VPS
+2. Criar novo workflow: "Aline-Analytics"
+3. Usar nós: Webhook, HTTP Request, NocoDB, Email
+4. Configurar endpoint: `/webhook/aline-analytics`
 
-# Abrir navegador em: http://localhost:5678
+**PASSO 3 - Estrutura do Workflow**
+
+```
+Webhook → Filtrar Dados → Processar → NocoDB → Email/Notificação
 ```
 
-**PASSO 3 - Criar seus workflows**
+**PASSO 4 - Salvar e Testar**
 
-1. Abrir n8n no navegador
-2. Criar novo workflow
-3. Usar nós: Webhook, HTTP Request, NocoDB
-4. Salvar como: `aline-analytics-workflow.json`
+1. Salvar workflow com nome claro
+2. Ativar workflow
+3. Testar com dados de exemplo
+4. Documentar URLs dos webhooks
 
-**PASSO 4 - Testar**
+**PASSO 5 - Desenvolvimento Local (Windows)**
 
-```javascript
-// No console do dashboard:
-updateMyModule("aline", "development");
+```cmd
+# Criar pasta para arquivos de apoio
+mkdir C:\Beonsafe-Dev\aline-analytics
+# Criar arquivos de documentação e configuração
 ```
 
 ---
 
 ### 🗄️ **Braian - NocoDB Estrutura & Segurança**
 
-**Responsabilidade:** Configurar banco de dados no NocoDB e sistemas de autenticação
+**Responsabilidade:** Configurar banco de dados no NocoDB (VPS) e estruturas de dados
 
 #### 🎯 Tarefas Específicas:
 
@@ -150,56 +152,79 @@ updateMyModule("aline", "development");
 3. **Logs de Segurança**
    - Tabela para armazenar todos os eventos
    - Histórico de ações dos usuários
-   - Backup automático de dados críticos
+   - Relatórios de segurança
 
-#### 📋 Como executar (Windows):
+#### 📋 Como executar:
 
-**PASSO 1 - Verificar NocoDB**
+**PASSO 1 - Acessar NocoDB na VPS**
 
-```cmd
-# Abrir PowerShell
-# Verificar se NocoDB está rodando
-# Abrir navegador em: http://localhost:8080
+```
+URL: http://seu-ip-vps:8080
+Login: (credenciais fornecidas pelo professor)
 ```
 
-**PASSO 2 - Iniciar NocoDB (se não estiver rodando)**
+**PASSO 2 - Criar estrutura de dados**
 
-```cmd
-# No PowerShell:
-npx nocodb
-
-# Ou se instalado globalmente:
-nocodb
-```
-
-**PASSO 3 - Criar estrutura de dados**
-
-1. Abrir NocoDB no navegador
+1. Fazer login no NocoDB da VPS
 2. Criar novo projeto: "Beonsafe-Database"
-3. Criar tabelas:
-   - `usuarios` (id, nome, email, nivel_acesso, data_criacao)
-   - `logs_seguranca` (id, tipo_evento, descricao, timestamp, usuario_id)
-   - `alertas` (id, nivel, mensagem, resolvido, data_criacao)
-   - `metricas` (id, tipo_metrica, valor, data_registro)
+3. Criar tabelas essenciais:
 
-**PASSO 4 - Configurar API**
+**Tabela: `usuarios`**
+
+- id (AutoNumber)
+- nome (SingleLineText)
+- email (Email)
+- nivel_acesso (SingleSelect: admin, user, viewer)
+- data_criacao (DateTime)
+- ativo (Checkbox)
+
+**Tabela: `logs_seguranca`**
+
+- id (AutoNumber)
+- tipo_evento (SingleSelect: login, logout, alert, error)
+- descricao (LongText)
+- timestamp (DateTime)
+- usuario_id (LinkToAnotherRecord → usuarios)
+- ip_origem (SingleLineText)
+
+**Tabela: `alertas`**
+
+- id (AutoNumber)
+- nivel (SingleSelect: baixo, medio, alto, critico)
+- titulo (SingleLineText)
+- mensagem (LongText)
+- resolvido (Checkbox)
+- data_criacao (DateTime)
+- responsavel_id (LinkToAnotherRecord → usuarios)
+
+**Tabela: `metricas_sistema`**
+
+- id (AutoNumber)
+- tipo_metrica (SingleSelect: conexoes, requests, cpu, memoria)
+- valor (Number)
+- unidade (SingleLineText)
+- data_registro (DateTime)
+
+**PASSO 3 - Configurar API**
 
 1. Ir em "Team & Settings" no NocoDB
-2. Copiar "API Token"
-3. Salvar token em arquivo: `braian-api-config.txt`
+2. Gerar "API Token"
+3. Configurar permissões de API
 
-**PASSO 5 - Testar conexão**
+**PASSO 4 - Desenvolvimento Local (Windows)**
 
-```javascript
-// No console do dashboard:
-updateMyModule("braian", "development");
+```cmd
+# Criar pasta para configurações
+mkdir C:\Beonsafe-Dev\braian-database
+# Salvar configurações de API
+# Criar scripts de teste
 ```
 
 ---
 
-### 🌐 **Kauã - Integração n8n + NocoDB**
+### 🌐 **Kauã - Integração n8n + NocoDB + Dashboard**
 
-**Responsabilidade:** Conectar n8n com NocoDB e criar APIs para o dashboard
+**Responsabilidade:** Conectar n8n (VPS) com NocoDB (VPS) e criar APIs para o dashboard
 
 #### 🎯 Tarefas Específicas:
 
@@ -213,131 +238,135 @@ updateMyModule("braian", "development");
 
    - Criar endpoints usando n8n
    - Fornecer dados para o dashboard HTML
-   - Webhook para atualizações ao vivo
+   - Sistema de webhooks para atualizações
 
 3. **Processamento de Dados**
    - Workflow para limpar e validar dados
    - Transformar dados antes de salvar
-   - Sistema de filas para muitos dados
+   - Sistema de cache para performance
 
-#### 📋 Como executar (Windows):
+#### 📋 Como executar:
 
-**PASSO 1 - Configurar conexão**
+**PASSO 1 - Workflow de Integração (n8n VPS)**
+
+1. Acessar n8n: `http://seu-ip-vps:5678`
+2. Criar workflow: "Kaua-Integration"
+3. Configurar nós:
+   - **Webhook** (receber dados)
+   - **Function** (processar dados)
+   - **NocoDB** (salvar dados)
+   - **Respond to Webhook** (responder ao dashboard)
+
+**PASSO 2 - Endpoints para Dashboard**
+Criar workflows para cada endpoint:
+
+**Endpoint 1: `/webhook/dashboard-data`**
+
+```
+Webhook → NocoDB (Get) → Function (format) → Response
+```
+
+**Endpoint 2: `/webhook/save-data`**
+
+```
+Webhook → Validate → NocoDB (Insert) → Response
+```
+
+**Endpoint 3: `/webhook/alerts`**
+
+```
+Webhook → NocoDB (Get alerts) → Format → Response
+```
+
+**PASSO 3 - Configuração Local (Windows)**
 
 ```cmd
-# Garantir que n8n e NocoDB estejam rodando
-# n8n: http://localhost:5678
-# NocoDB: http://localhost:8080
+# Criar pasta de desenvolvimento
+mkdir C:\Beonsafe-Dev\kaua-integration
+
+# Criar arquivo de configuração
+# endpoints.json com URLs dos webhooks
 ```
 
-**PASSO 2 - Criar workflow de integração**
-
-1. No n8n, criar novo workflow
-2. Adicionar nó "NocoDB"
-3. Configurar com token do Braian
-4. Testar inserção de dados
-
-**PASSO 3 - Criar API endpoints**
-
-1. Workflow com nó "Webhook"
-2. URL: `http://localhost:5678/webhook/beonsafe-data`
-3. Conectar com nó NocoDB para buscar dados
-4. Retornar JSON para dashboard
-
-**PASSO 4 - Arquivo de configuração**
-Criar `kaua-integration-config.json`:
-
-```json
-{
-  "n8n_url": "http://localhost:5678",
-  "nocodb_url": "http://localhost:8080",
-  "webhook_endpoint": "/webhook/beonsafe-data",
-  "api_token": "TOKEN_DO_BRAIAN_AQUI"
-}
-```
-
-**PASSO 5 - Testar**
+**PASSO 4 - Atualizar Dashboard JavaScript**
+Modificar `aulajs.js` para conectar com VPS:
 
 ```javascript
-// No console do dashboard:
-updateMyModule("kaua", "development");
+const VPS_BASE_URL = "http://seu-ip-vps:5678";
+const ENDPOINTS = {
+  getData: "/webhook/dashboard-data",
+  saveData: "/webhook/save-data",
+  getAlerts: "/webhook/alerts",
+};
 ```
 
 ---
 
 ### 💾 **Elcio - Backup e Monitoramento**
 
-**Responsabilidade:** Sistema de backup automático e monitoramento de performance
+**Responsabilidade:** Sistema de backup automático e monitoramento da VPS
 
 #### 🎯 Tarefas Específicas:
 
 1. **Backup Automático**
 
-   - Workflow no n8n para backup diário
-   - Exportar dados do NocoDB
-   - Salvar backups em pasta local
+   - Workflow no n8n para backup diário do NocoDB
+   - Exportar dados para arquivos
+   - Armazenar backups em local seguro
 
 2. **Monitoramento de Sistema**
 
    - Verificar se n8n e NocoDB estão funcionando
    - Alertas quando sistema está offline
-   - Métricas de performance
+   - Métricas de performance da VPS
 
 3. **Relatórios de Status**
+
    - Relatório diário de funcionamento
    - Estatísticas de uso do sistema
    - Log de erros e problemas
 
-#### 📋 Como executar (Windows):
+#### 📋 Como executar:
 
-**PASSO 1 - Criar pasta de backups**
+**PASSO 1 - Workflow de Backup (n8n VPS)**
+
+1. Acessar n8n: `http://seu-ip-vps:5678`
+2. Criar workflow: "Elcio-Backup-System"
+3. Configurar:
+   - **Cron** (Schedule: todo dia às 02:00)
+   - **NocoDB** (Export data)
+   - **HTTP Request** (salvar em storage)
+   - **Email** (confirmar backup)
+
+**PASSO 2 - Monitoramento**
+Criar workflow: "Elcio-Monitor"
+
+```
+Schedule (5min) → HTTP (test n8n) → HTTP (test NocoDB) →
+IF (error) → Email (alert) → NocoDB (log error)
+```
+
+**PASSO 3 - Dashboard de Status**
+Criar página local para monitorar:
 
 ```cmd
-# No PowerShell:
-mkdir C:\Beonsafe-Backups
-mkdir C:\Beonsafe-Backups\daily
-mkdir C:\Beonsafe-Backups\logs
+mkdir C:\Beonsafe-Dev\elcio-monitoring
+# Criar monitor.html para acompanhar status
 ```
 
-**PASSO 2 - Workflow de Backup**
+**PASSO 4 - Script de Verificação**
+Criar `monitor.js` para verificar:
 
-1. No n8n, criar workflow "Backup-Diario"
-2. Nó "Schedule Trigger" (todo dia às 23:00)
-3. Nó "HTTP Request" para exportar dados do NocoDB
-4. Nó "Write Binary File" para salvar backup
-
-**PASSO 3 - Monitoramento**
-
-1. Workflow "Monitor-Sistema"
-2. Nó "Schedule Trigger" (a cada 5 minutos)
-3. Nó "HTTP Request" para testar n8n e NocoDB
-4. Nó "IF" para verificar se está funcionando
-5. Nó "Email" para alertas quando offline
-
-**PASSO 4 - Script de status**
-Criar `elcio-monitor.js`:
-
-```javascript
-// Script para verificar status do sistema
-function checkSystemStatus() {
-  // Verificar n8n
-  // Verificar NocoDB
-  // Gerar relatório
-}
-```
-
-**PASSO 5 - Testar**
-
-```javascript
-// No console do dashboard:
-updateMyModule("elcio", "development");
-```
+- Status do n8n (VPS)
+- Status do NocoDB (VPS)
+- Tempo de resposta
+- Última atualização de dados
 
 ---
 
 ### 🎨 **Alessandra - Interface e Design**
 
-**Responsabilidade:** Melhorar interface HTML/CSS e experiência do usuário
+**Responsabilidade:** Melhorar interface HTML/CSS local e experiência do usuário
 
 #### 🎯 Tarefas Específicas:
 
@@ -349,174 +378,149 @@ updateMyModule("elcio", "development");
 
 2. **Componentes Visuais**
 
-   - Gráficos com Chart.js
+   - Gráficos com Chart.js conectados à VPS
    - Cards informativos
    - Botões e formulários estilizados
 
 3. **Experiência do Usuário**
+
    - Navegação fácil e intuitiva
    - Feedback visual para ações
    - Temas claro e escuro
 
-#### 📋 Como executar (Windows):
+#### 📋 Como executar:
 
-**PASSO 1 - Preparar ambiente**
+**PASSO 1 - Ambiente de Desenvolvimento (Windows)**
 
 ```cmd
-# Abrir pasta do projeto
-# Windows + E → Navegar até aulabeonsafe
-# Botão direito → "Abrir no VS Code" (ou bloco de notas)
+# Criar estrutura de arquivos
+mkdir C:\Beonsafe-Dev\alessandra-design
+mkdir C:\Beonsafe-Dev\alessandra-design\styles
+mkdir C:\Beonsafe-Dev\alessandra-design\components
+mkdir C:\Beonsafe-Dev\alessandra-design\assets
 ```
 
-**PASSO 2 - Estrutura de arquivos**
+**PASSO 2 - Estrutura de Arquivos**
 
 ```
 alessandra-design/
 ├── styles/
 │   ├── main.css
 │   ├── responsive.css
-│   └── themes.css
+│   ├── themes.css
+│   └── dashboard.css
 ├── components/
 │   ├── cards.css
+│   ├── charts.css
 │   ├── buttons.css
-│   └── charts.css
-└── assets/
-    ├── images/
-    └── icons/
+│   └── forms.css
+├── assets/
+│   ├── images/
+│   └── icons/
+└── js/
+    ├── charts.js
+    ├── animations.js
+    └── responsive.js
 ```
 
-**PASSO 3 - Melhorar CSS**
-
-1. Abrir `index.html`
-2. Criar novos estilos em `alessandra-design/styles/main.css`
-3. Adicionar responsividade para celular
-4. Testar no navegador
-
-**PASSO 4 - Adicionar gráficos**
-
-1. Incluir Chart.js no HTML:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-```
-
-2. Criar gráficos em `alessandra-design/components/charts.js`
-
-**PASSO 5 - Testar**
-
-```cmd
-# Abrir index.html no navegador
-# Pressionar F12 para abrir console
-# Verificar responsividade: Ctrl + Shift + M
-```
+**PASSO 3 - Conectar com VPS**
+Atualizar dashboard para buscar dados reais:
 
 ```javascript
-// No console do dashboard:
-updateMyModule("alessandra", "development");
+// Conectar gráficos com dados da VPS
+async function loadChartData() {
+  const response = await fetch("http://seu-ip-vps:5678/webhook/dashboard-data");
+  const data = await response.json();
+  // Criar gráficos com dados reais
+}
+```
+
+**PASSO 4 - Gráficos Interativos**
+
+```html
+<!-- Adicionar Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Criar gráficos conectados com NocoDB -->
 ```
 
 ---
 
-## 🚀 Como Iniciar o Projeto (Windows - Passo a Passo)
+## 🚀 Como Iniciar o Projeto
 
-### 📁 PASSO 1 - Baixar o Projeto
+### 📋 **Informações da VPS (fornecidas pelo professor)**
+
+```
+🤖 n8n: http://seu-ip-vps:5678
+🗄️ NocoDB: http://seu-ip-vps:8080
+👤 Usuários e senhas: (fornecidos individualmente)
+```
+
+### 💻 **Setup Local (Windows)**
+
+**PASSO 1 - Baixar o Projeto**
 
 ```cmd
 # Opção 1: Baixar ZIP do GitHub
 1. Ir em: https://github.com/ericvasr/aulabeonsafe
 2. Clicar em "Code" → "Download ZIP"
-3. Extrair para: C:\Beonsafe\
+3. Extrair para: C:\Beonsafe-Local\
 
-# Opção 2: Usar Git (se instalado)
-git clone https://github.com/ericvasr/aulabeonsafe.git C:\Beonsafe\
+# Opção 2: Git (se instalado)
+git clone https://github.com/ericvasr/aulabeonsafe.git C:\Beonsafe-Local\
 ```
 
-### 🤖 PASSO 2 - Iniciar n8n
+**PASSO 2 - Configurar Dashboard**
 
 ```cmd
-# Abrir PowerShell (Windows + X → PowerShell)
-cd C:\Beonsafe\
-n8n start
-
-# Aguardar mensagem: "Editor is now accessible via: http://localhost:5678"
-# Deixar este PowerShell aberto!
-```
-
-### 🗄️ PASSO 3 - Iniciar NocoDB
-
-```cmd
-# Abrir NOVO PowerShell (outro terminal)
-cd C:\Beonsafe\
-npx nocodb
-
-# Aguardar mensagem sobre porta 8080
-# Deixar este PowerShell também aberto!
-```
-
-### 🌐 PASSO 4 - Abrir Dashboard
-
-```cmd
-# Navegar até pasta do projeto
-cd C:\Beonsafe\aulabeonsafe\
-
+cd C:\Beonsafe-Local\aulabeonsafe\
+# Editar aulajs.js com IP da VPS
 # Abrir index.html no navegador
-start index.html
 ```
 
-### ✅ PASSO 5 - Verificar se tudo funciona
+**PASSO 3 - Criar Pasta Pessoal**
 
-1. **n8n**: http://localhost:5678 (deve abrir interface)
-2. **NocoDB**: http://localhost:8080 (deve abrir interface)
-3. **Dashboard**: arquivo index.html (deve mostrar dashboard verde)
+```cmd
+mkdir C:\Beonsafe-Dev\seu-nome-modulo
+# Trabalhar nos seus arquivos aqui
+```
 
 ---
 
-## 🔧 Comandos para Desenvolvedores
+## 🔧 URLs e Endpoints Importantes
 
-### **Atualizar Status do Seu Módulo**
+### **VPS - Serviços Principais**
+
+- 🤖 **n8n**: `http://seu-ip-vps:5678`
+- 🗄️ **NocoDB**: `http://seu-ip-vps:8080`
+
+### **Endpoints dos Alunos (a serem criados)**
+
+- 📊 **Aline**: `http://seu-ip-vps:5678/webhook/aline-analytics`
+- 🗄️ **Braian**: API Token no NocoDB
+- 🌐 **Kauã**: `http://seu-ip-vps:5678/webhook/dashboard-data`
+- 💾 **Elcio**: `http://seu-ip-vps:5678/webhook/system-status`
+- 🎨 **Alessandra**: Dashboard local conectado à VPS
+
+### **Comandos para Teste**
 
 ```javascript
-// Abrir F12 no navegador → Console
-updateMyModule("seu_nome", "development"); // ou "ready"
-```
-
-### **Testar Conexão com APIs**
-
-```javascript
-// Testar webhook do n8n:
+// No console do browser (F12):
+updateMyModule("seu_nome", "development");
 sendCustomWebhook("teste", "Mensagem do " + "seu_nome");
-
-// Verificar dados do NocoDB:
-BeonsafeAPI.getStats();
 ```
-
-### **URLs Importantes**
-
-- 🤖 **n8n**: http://localhost:5678
-- 🗄️ **NocoDB**: http://localhost:8080
-- 📊 **Dashboard**: abrir index.html
 
 ---
 
-## 📚 Recursos e Tutoriais
+## 📝 Cronograma do Projeto
 
-### **n8n - Aprender Básico**
-
-1. [Tutorial n8n - YouTube](https://www.youtube.com/watch?v=1MwSUC1Xtkg)
-2. [Documentação n8n](https://docs.n8n.io/)
-3. [Workflows de exemplo](https://n8n.io/workflows/)
-
-### **NocoDB - Aprender Básico**
-
-1. [Tutorial NocoDB - YouTube](https://www.youtube.com/watch?v=K-UEecQyiOk)
-2. [Documentação NocoDB](https://docs.nocodb.com/)
-3. [Como criar tabelas](https://docs.nocodb.com/getting-started/quick-start/)
-
-### **HTML/CSS/JavaScript**
-
-1. [W3Schools HTML](https://www.w3schools.com/html/)
-2. [W3Schools CSS](https://www.w3schools.com/css/)
-3. [W3Schools JavaScript](https://www.w3schools.com/js/)
+| Semana | Módulo                 | Responsável | Entrega         |
+| ------ | ---------------------- | ----------- | --------------- |
+| 1-2    | Estrutura Base         | Todos       | ✅ Concluído    |
+| 3-4    | Workflows n8n          | Aline       | 🔄 Em andamento |
+| 3-4    | Estrutura NocoDB       | Braian      | 🔄 Em andamento |
+| 5-6    | Integração VPS + Local | Kauã        | ⏳ Aguardando   |
+| 5-6    | Backup & Monitoramento | Elcio       | ⏳ Aguardando   |
+| 7-8    | Interface Final        | Alessandra  | ⏳ Aguardando   |
 
 ---
 
@@ -534,102 +538,56 @@ BeonsafeAPI.getStats();
 
 ---
 
-## 📝 Cronograma do Projeto
-
-| Semana | Módulo                  | Responsável | Entrega         |
-| ------ | ----------------------- | ----------- | --------------- |
-| 1-2    | Estrutura Base          | Todos       | ✅ Concluído    |
-| 3-4    | n8n Workflows           | Aline       | 🔄 Em andamento |
-| 3-4    | NocoDB Database         | Braian      | 🔄 Em andamento |
-| 5-6    | Integração n8n + NocoDB | Kauã        | ⏳ Aguardando   |
-| 5-6    | Backup & Monitoramento  | Elcio       | ⏳ Aguardando   |
-| 7-8    | Interface Final         | Alessandra  | ⏳ Aguardando   |
-
----
-
 ## 🆘 Problemas Comuns e Soluções
 
-### ❌ **"n8n não funciona"**
+### ❌ **"Não consigo acessar a VPS"**
 
-```cmd
-# Solução:
-npm install -g n8n
-# ou
-npx n8n@latest
-```
-
-### ❌ **"NocoDB não abre"**
-
-```cmd
-# Solução:
-npx nocodb@latest
-# ou verificar se porta 8080 está livre
-```
-
-### ❌ **"PowerShell não reconhece comando"**
-
-```cmd
-# Instalar Node.js primeiro:
-# Baixar de: https://nodejs.org/
-# Reiniciar computador após instalação
-```
+1. Verificar se IP está correto
+2. Verificar se portas 5678 e 8080 estão abertas
+3. Contatar professor para credenciais
 
 ### ❌ **"Dashboard não carrega dados"**
 
-1. Verificar se n8n está rodando (localhost:5678)
-2. Verificar se NocoDB está rodando (localhost:8080)
+1. Verificar se n8n está rodando na VPS
+2. Verificar se NocoDB está rodando na VPS
 3. Verificar console do navegador (F12) para erros
+4. Verificar se endpoints estão configurados
+
+### ❌ **"Workflow não funciona"**
+
+1. Verificar se workflow está ativado no n8n
+2. Verificar credenciais do NocoDB
+3. Testar cada nó individualmente
+4. Verificar logs de erro no n8n
 
 ---
 
-## 🤝 Como Contribuir (Passo a Passo)
+## 🤝 Como Contribuir
 
-### **Para quem nunca usou Git:**
+### **Fluxo de Trabalho:**
 
-**PASSO 1 - Fazer suas alterações**
+**PASSO 1 - Trabalhar localmente**
 
 ```cmd
-# Trabalhar nos seus arquivos normalmente
-# Salvar todas as alterações
+# Fazer alterações nos seus arquivos
+# Testar localmente
+# Configurar conexões com VPS
 ```
 
-**PASSO 2 - Preparar para envio**
+**PASSO 2 - Configurar na VPS**
 
 ```cmd
-# Abrir PowerShell na pasta do projeto
-cd C:\Beonsafe\aulabeonsafe\
-
-# Verificar o que mudou
-git status
+# Acessar n8n/NocoDB na VPS
+# Criar/configurar seus workflows/tabelas
+# Testar integração
 ```
 
-**PASSO 3 - Adicionar arquivos**
+**PASSO 3 - Commit e Push**
 
 ```cmd
-# Adicionar TODOS os arquivos
+cd C:\Beonsafe-Local\aulabeonsafe\
 git add .
-
-# OU adicionar apenas seus arquivos:
-git add aline-analytics/
-# git add braian-database/
-# git add kaua-integration/
-# git add elcio-backup/
-# git add alessandra-design/
-```
-
-**PASSO 4 - Fazer commit**
-
-```cmd
-# Commit com mensagem clara:
-git commit -m "Add: Módulo Analytics da Aline - workflows n8n"
-# git commit -m "Add: Estrutura database do Braian - tabelas NocoDB"
-# git commit -m "Fix: Correção na integração do Kauã"
-# git commit -m "Update: Melhorias no design da Alessandra"
-```
-
-**PASSO 5 - Enviar para GitHub**
-
-```cmd
+git commit -m "Add: Módulo [Seu Nome] - [Descrição]"
 git push origin main
 ```
 
@@ -638,23 +596,24 @@ git push origin main
 - `Add:` Nova funcionalidade criada
 - `Fix:` Correção de problema
 - `Update:` Melhoria em código existente
-- `Docs:` Atualização de documentação
+- `Config:` Configuração de VPS/workflows
 
 ---
 
 ## 📞 Suporte e Contato
 
 - 💬 **Reuniões**: Quintas-feiras às 14h
-- 📝 **Dúvidas**: Usar GitHub Issues
-- 🆘 **Problemas urgentes**: WhatsApp do grupo
-- 📚 **Documentação**: Este README
+- 🆘 **Problemas com VPS**: WhatsApp do grupo
+- 📝 **Dúvidas técnicas**: GitHub Issues
+- 🔑 **Credenciais VPS**: Solicitar ao professor
 
-### **Se algo não funcionar:**
+### **Checklist de Problemas:**
 
-1. Ler a seção "Problemas Comuns"
-2. Verificar se n8n e NocoDB estão rodando
-3. Perguntar no grupo do WhatsApp
-4. Levar dúvida para reunião de quinta
+1. ✅ VPS está acessível?
+2. ✅ n8n e NocoDB estão rodando?
+3. ✅ Credenciais estão corretas?
+4. ✅ Workflows estão ativados?
+5. ✅ Dashboard local está conectado?
 
 ---
 
@@ -662,17 +621,17 @@ git push origin main
 
 ![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
 ![Alunos](https://img.shields.io/badge/Alunos-5%20Colaboradores-green)
-![Tecnologias](https://img.shields.io/badge/Tecnologias-n8n%2BNocoDB%2BJS-blue)
+![Tecnologias](https://img.shields.io/badge/VPS-n8n%2BNocoDB-blue)
 
 **Sistema atual:**
 
 - ✅ Dashboard base funcionando
-- ✅ Interface com cores Beonsafe
-- 🔄 Conectar com n8n e NocoDB
-- ⏳ Módulos específicos dos alunos
+- ✅ VPS configurada com n8n + NocoDB
+- 🔄 Conectar workflows dos alunos
+- ⏳ Integração completa VPS + Local
 
 ---
 
-> 💡 **Lembrete Importante:** Este projeto usa n8n e NocoDB que vocês já conhecem! Se tiver dúvida, perguntem nas reuniões. Trabalhem no seu próprio ritmo e sempre testem antes de fazer commit.
+> 💡 **Importante:** A VPS já tem n8n e NocoDB rodando! Foquem em CRIAR workflows e estruturas de dados. O desenvolvimento local é só para interface e testes.
 
-**Equipe Beonsafe** 🛡️ | **Desenvolvido com ❤️ pelos alunos** | **Powered by n8n + NocoDB**
+**Equipe Beonsafe** 🛡️ | **VPS n8n + NocoDB** | **Desenvolvido com ❤️ pelos alunos**
